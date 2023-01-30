@@ -13,14 +13,13 @@ from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Activation, Dropout, Flatten, Dense
 
 image_directory='Dataset/'
-
+#create list from directories
 no_tumor_images=os.listdir(image_directory+ 'no/')
 yes_tumor_images=os.listdir(image_directory+ 'yes/')
 dataset=[]
 label=[]
 
 INPUT_SIZE=64
-
 for i , image_name in enumerate(no_tumor_images):
     if(image_name.split('.')[1]=='jpg'):
         image=cv2.imread(image_directory+'no/'+image_name)
@@ -36,11 +35,11 @@ for i , image_name in enumerate(yes_tumor_images):
         image=image.resize((INPUT_SIZE,INPUT_SIZE))
         dataset.append(np.array(image))
         label.append(1)
-
+#convert into numpy array
 dataset=np.array(dataset)
 label=np.array(label)
 
-
+#splitting data into 80,20 2400 600
 x_train, x_test, y_train, y_test=train_test_split(dataset, label, test_size=0.2, random_state=0)
 
 
@@ -49,7 +48,7 @@ x_test=normalize(x_test, axis=1)
 
 y_train=to_categorical(y_train , num_classes=2)
 y_test=to_categorical(y_test , num_classes=2)
-
+#model bulding
 
 model=Sequential()
 
